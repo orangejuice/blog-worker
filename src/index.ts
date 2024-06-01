@@ -14,8 +14,8 @@ import {graphql} from "@octokit/graphql"
 import {importPKCS8, SignJWT} from "jose"
 
 export interface Env {
-  GITHUB_APP_ID: string;
-  GITHUB_PRIVATE_KEY: string;
+  GITHUB_APP_ID: string
+  GITHUB_PRIVATE_KEY: string
   GITHUB_REPO: string
   WEBSITE_URL: string
 }
