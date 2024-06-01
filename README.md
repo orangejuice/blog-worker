@@ -8,18 +8,17 @@ A utility cloudflare worker to automate updating the Discussion created by Giscu
 
 **What does it do**: it gets invoked everytime a new Discussion is created. It would first
 
-- Update the new Discussion body to contains the link to the original web page like below, and then
-  ```
-  English: {WEBSITE_URL}/{SLUG}
-  中文: {WEBSITE_URL}/zh/{SLUG}
-  ```
-- Update the new Discussion title to `zh/{slug}`, in order for this Discussion thread to be matched by both `{slug}`(En)
-  and `zh/{slug}`(zh)
+1. Update the new Discussion body to contains the link to the original web page like below, and then
+   ```
+   English: {WEBSITE_URL}/{SLUG}
+   中文: {WEBSITE_URL}/zh/{SLUG}
+   ```
+
+2. Update the new Discussion title to `zh/{slug}`, in order for this Discussion thread to be matched by both `{slug}`(En) and `zh/{slug}`(zh)
 
 ## How to set up
 
-1. Has Giscus integrated as the commenting system
-   and use `mapping: pathname`
+1. Has Giscus integrated as the commenting system and use `mapping: pathname`
 
 2. clone this repo and install the packages e.g. `bun i`
 
