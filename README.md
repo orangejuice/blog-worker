@@ -40,6 +40,3 @@ A utility cloudflare worker to automate updating the Discussion created by Giscu
    GITHUB_REPO: string (the Repo)
    WEBSITE_URL: string (URL of the basepath of the Website, e.g. https://example.com)
    ```
-
-
-It Works with GitHub APP: https://github.com/settings/apps/fetch-giscus-meta/installations/new
