@@ -109,6 +109,7 @@ export const getInstallationId = async (repo: string, {appId, privateKey}: {appI
 }
 
 async function revalidateRequest(url: string) {
+  console.log(new Date().toISOString(), "[cache]send revalidate message to", `${url}/api/revalidate`)
   return await fetch(`${url}/api/revalidate`, {method: "POST"})
 }
 
