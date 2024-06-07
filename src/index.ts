@@ -82,7 +82,7 @@ async function updateDiscussion(id: string, title: string, {appId, privateKey, i
     title: title.startsWith("zh/") ? title : "zh/".concat(title),
     newBody: `
 **English**: ${title.startsWith("zh/") ? websiteUrl.concat(title.slice(2)) : websiteUrl.concat("/", title)}
-**中文**: ${title.startsWith("zh/") ? websiteUrl.concat("/", title) : title.concat("/zh/", title)}
+**中文**: ${title.startsWith("zh/") ? websiteUrl.concat("/", title) : websiteUrl.concat("/zh/", title)}
 `
   })
 }
