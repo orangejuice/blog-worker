@@ -2,7 +2,6 @@
 name = "on-new-giscus-comment"
 main = "src/index.ts"
 compatibility_date = "2024-05-29"
-#compatibility_flags = ["nodejs_compat"]
 node_compat = true
 
 # Automatically place your workloads in an optimal location to minimize latency.
@@ -37,10 +36,10 @@ node_compat = true
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
-# [[d1_databases]]
-# binding = "MY_DB"
-# database_name = "my-database"
-# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+[[d1_databases]]
+binding = "blog"
+database_name = "blog"
+database_id = "b7917e9c-c905-4087-af8a-158c7fde4162"
 
 # Bind a dispatch namespace. Use Workers for Platforms to deploy serverless functions programmatically on behalf of your customers.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#dispatch-namespace-bindings-workers-for-platforms
