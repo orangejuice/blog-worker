@@ -10,7 +10,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {invokeRevalidate, incrementPostViews, postMetadata, updateGithub} from "./api"
+import {incrementPostViews, postMetadata, updateGithub} from "./api"
 
 
 async function fetch(request: Request, env: Env): Promise<Response> {
@@ -23,12 +23,8 @@ async function fetch(request: Request, env: Env): Promise<Response> {
     return await postMetadata(payload, env)
   }
 
-  if (githubEvent == "discussion" || githubEvent == "discussion_comment") {
-    void invokeRevalidate(env)
-  }
-
   if (githubEvent == "discussion" && payload.discussion && request.method == "POST" && payload.action == "created") {
-    return await updateGithub(request, env, payload)
+    return await updateGithub(env, payload)
   }
 
   return Response.json({message: "ok"})

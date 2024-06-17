@@ -32,14 +32,14 @@ export async function postMetadata(payload: any, env: Env) {
   if (metadata.length < slugs.length) {
     const toCreate = new Set(slugs)
     metadata.forEach(({slug}) => toCreate.delete(slug))
-    created = await db.insert(posts).values([...toCreate].map(slug => ({slug}))).returning({slug: posts.slug, view: posts.view})
+    created = await db.insert(posts).values([...toCreate].map(slug => ({slug, view: 0}))).returning({slug: posts.slug, view: posts.view})
   }
 
   return Response.json({data: metadata.concat(created)})
 }
 
 
-export async function updateGithub(request: Request, env: Env, payload: any) {
+export async function updateGithub(env: Env, payload: any) {
   const discussion = payload.discussion
 
   const installationIdResponse = await getInstallationId(env.GITHUB_REPO, {appId: env.GITHUB_APP_ID, privateKey: env.GITHUB_PRIVATE_KEY})
@@ -109,10 +109,4 @@ export const getInstallationId = async (repo: string, {appId, privateKey}: {appI
       Accept: "application/vnd.github.v3+json"
     }
   })
-}
-
-export async function invokeRevalidate(env: Env) {
-  const url = env.WEBSITE_URL
-  console.log(new Date().toISOString(), "[cache]send revalidate message to", `${url}/api/revalidate`)
-  return await fetch(`${url}/api/revalidate`, {method: "POST"})
 }
