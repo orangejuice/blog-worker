@@ -2,13 +2,21 @@
 
 ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
 
-A utility Cloudflare worker to automate updating Discussions created by Giscus.
-
-**Purpose**: Integrating Giscus into a customized workflow to facilitate complete support for i18n.
+A utility service work aside the orangejuice blog system to fulfill various of features.
 
 ## What It Does
 
-This worker is invoked every time a new discussion is created. It performs the following actions:
+### Purpose 1: Serve as the API service for `Cloudflare D1` database querying.
+
+This worker serves two API 1.`POST /api/post` and 2.`POST /api/post/{slug}/increment` for 
+
+1. Get metadata (viewCounts) of posts with the request body `{slugs: string[]}`
+
+2. Increment the view count of the post `slug` by `1`.
+
+### Purpose 2: Integrating Giscus into a customized workflow to facilitate complete support for i18n.
+
+This worker is invoked every time a new `discussion` or `discussion_comment` is created on GitHub. It performs the following actions:
 
 1. Updates the body of the new discussion to include links to the original web page in multiple languages, like this:
    ```
