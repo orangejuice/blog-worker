@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "49be9b23-87e7-4b1f-86ae-f6e782ca70d9",
+  "id": "a700e73a-277b-47b1-ba84-cbc7fd7e9f57",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "posts": {
@@ -19,7 +19,8 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": 0
         },
         "last": {
           "name": "last",
