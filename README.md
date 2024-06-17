@@ -1,6 +1,7 @@
 # On New Giscus Comment
 
 ![typescript](https://img.shields.io/badge/Typescript-3178c6?logo=typescript&logoColor=fff)
+![typescript](https://img.shields.io/badge/Drizzle%20ORM-89bf09?logo=drizzle&logoColor=fff)
 ![deploy](https://img.shields.io/github/deployments/orangejuice/on-new-giscus-comment/production?logo=cloudflare-workers&label=Cloudflare%20Worker)
 
 A utility service works alongside the OrangeJuice blog system to provide a variety of features.
