@@ -4,15 +4,16 @@ import {eq, or, sql} from "drizzle-orm"
 import {graphql} from "@octokit/graphql"
 import {importPKCS8, SignJWT} from "jose"
 
-export async function postClick(url: URL, env: Env) {
+export async function incrementPostViews(url: URL, env: Env) {
   const db = drizzle(env.blog)
-  const slug = url.pathname.split("/").pop()
+  const slug = url.pathname.split("/")[3]
   if (!slug) return Response.json({message: "slug is missing"})
   const data = await db
-    .update(posts)
-    .set({view: sql`${posts.view} + 1`})
-    .where(eq(posts.slug, slug))
+    .insert(posts)
+    .values({slug, view: 1})
+    .onConflictDoUpdate({target: posts.slug, set: {view: sql`${posts.view} + 1`}})
     .returning({slug: posts.slug, view: posts.view})
+  console.log(new Date().toISOString(), `[view]${url}`, "viewed", data[0].view, "times")
   return Response.json({data})
 }
 

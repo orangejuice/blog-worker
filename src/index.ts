@@ -10,7 +10,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {invokeRevalidate, postClick, postMetadata, updateGithub} from "./api"
+import {invokeRevalidate, incrementPostViews, postMetadata, updateGithub} from "./api"
 
 
 async function fetch(request: Request, env: Env): Promise<Response> {
@@ -19,9 +19,7 @@ async function fetch(request: Request, env: Env): Promise<Response> {
   const githubEvent = request.headers.get("X-GitHub-Event")
 
   if (url.pathname.startsWith("/api/post") && request.method == "POST") {
-    if (url.pathname.startsWith("/api/post-click") && request.method == "POST") {
-      return await postClick(url, env)
-    }
+    if (url.pathname.endsWith("/increment")) return await incrementPostViews(url, env)
     return await postMetadata(payload, env)
   }
 
