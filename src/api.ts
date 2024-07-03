@@ -45,8 +45,7 @@ export async function updateGithub(env: Env, payload: any) {
   const installationIdResponse = await getInstallationId(env.GITHUB_REPO, {appId: env.GITHUB_APP_ID, privateKey: env.GITHUB_PRIVATE_KEY})
   if (!installationIdResponse.ok) {
     const errorText = await installationIdResponse.text()
-    console.error(errorText)
-    return new Response(`Failed: ${errorText}`, {status: installationIdResponse.status})
+    throw Error(`${installationIdResponse.status}: ${errorText}`)
   }
 
   try {

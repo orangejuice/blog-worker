@@ -27,7 +27,7 @@ async function fetch(request: Request, env: Env): Promise<Response> {
     return await updateGithub(env, payload)
   }
 
-  return Response.json({message: "ok"})
+  throw Error("unsupported operation")
 }
 
 
