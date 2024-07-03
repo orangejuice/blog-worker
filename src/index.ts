@@ -19,12 +19,17 @@ async function fetch(request: Request, env: Env): Promise<Response> {
   const githubEvent = request.headers.get("X-GitHub-Event")
 
   if (url.pathname.startsWith("/api/post") && request.method == "POST") {
-    if (url.pathname.endsWith("/increment")) return await incrementPostViews(url, env)
-    return await postMetadata(payload, env)
+    if (url.pathname.endsWith("/increment")) return await incrementPostViews({url, db: env.blog})
+    return await postMetadata({slugs: payload.slugs, db: env.blog})
   }
 
-  if (githubEvent == "discussion" && payload.discussion && request.method == "POST" && payload.action == "created") {
-    return await updateGithub(env, payload)
+  if (githubEvent == "discussion" && payload.discussion && request.method == "POST") {
+    const appId = request.headers.get("x-github-hook-installation-target-id") ?? ""
+    console.log(JSON.stringify(env))
+    if (payload.action == "created") return await updateGithub({
+      appId, privateKey: env.GITHUB_PRIVATE_KEY, websiteUrl: env.WEBSITE_URL, payload
+    })
+    return Response.json("success")
   }
 
   throw Error("unsupported operation")

@@ -34,7 +34,7 @@ This worker is invoked every time a new `discussion` or `discussion_comment` is 
 
 2. Clone this repository and install the necessary packages, e.g., `bun i`.
 
-3. Create a GitHub App and obtain the `App ID`, `Private Key`, and configure the required settings/permissions:
+3. Obtain a `Github Private Key`, create a GitHub App, and configure the required settings/permissions:
    ```
    Webhook: Active
    Webhook URL: The URL of the Cloudflare worker
@@ -46,11 +46,11 @@ This worker is invoked every time a new `discussion` or `discussion_comment` is 
 
 5. Set up Cloudflare worker secrets with the information obtained in the previous steps by running `wrangler secret put [Secret Name]`:
    ```
-   GITHUB_APP_ID: string (the App ID)
    GITHUB_PRIVATE_KEY: string (the Private Key)
    GITHUB_REPO: string (the repository name)
    WEBSITE_URL: string (the base URL of the website, e.g., https://example.com)
    ```
+   And of course, we can also store `GITHUB_REPO` and `WEBSITE_URL` as plaintext Environment Variables instead.
 
 6. Deploy the Cloudflare worker `wrangler deploy` manually or setup Github Actions Continuous deploymeny by adding the Cloudflare API Token generated with `Edit Cloudflare Worker` template
    ```
