@@ -69,12 +69,3 @@ export async function updateGithub({appId, privateKey, websiteUrl, payload: {dis
 
   return new Response("Success!", {status: 200})
 }
-
-
-export async function notifyGithubUpdate({url, payload}: {url: string, payload: any}) {
-  const slug = payload.discussion.title.slice(2)
-  return await fetch(url.concat("/api/event"), {
-    method: "POST",
-    body: JSON.stringify({slug})
-  })
-}
