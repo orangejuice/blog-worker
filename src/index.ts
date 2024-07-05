@@ -10,7 +10,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {incrementPostViews, postMetadata, updateGithub} from "./api"
+import {incrementPostViews, notifyGithubUpdate, postMetadata, updateGithub} from "./api"
 
 
 async function fetch(request: Request, env: Env): Promise<Response> {
@@ -25,10 +25,12 @@ async function fetch(request: Request, env: Env): Promise<Response> {
 
   if (githubEvent == "discussion" && payload.discussion && request.method == "POST") {
     const appId = request.headers.get("x-github-hook-installation-target-id") ?? ""
-    console.log(JSON.stringify(env))
-    if (payload.action == "created") return await updateGithub({
-      appId, privateKey: env.GITHUB_PRIVATE_KEY, websiteUrl: env.WEBSITE_URL, payload
-    })
+    if (payload.action == "created") {
+      await updateGithub({
+        appId, privateKey: env.GITHUB_PRIVATE_KEY, websiteUrl: env.WEBSITE_URL, payload
+      })
+      await notifyGithubUpdate({url: env.WEBSITE_URL, payload})
+    }
     return Response.json("success")
   }
 
