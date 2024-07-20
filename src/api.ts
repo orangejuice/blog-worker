@@ -1,6 +1,6 @@
 import {drizzle} from "drizzle-orm/d1"
 import {posts} from "./schema"
-import {eq, or, sql} from "drizzle-orm"
+import {inArray, sql} from "drizzle-orm"
 import {graphql} from "@octokit/graphql"
 
 export async function incrementPostViews({url, db: blog}: {url: URL, db: Env["blog"]}) {
@@ -24,16 +24,15 @@ export async function postMetadata({slugs, db: blog}: {slugs: string[]; db: D1Da
   const metadata = await db
     .select({slug: posts.slug, view: posts.view})
     .from(posts)
-    .where(or(...slugs.map(slug => eq(posts.slug, slug))))
+    .where(inArray(posts.slug, slugs))
+    .then(rows => new Map(rows.map(row => [row.slug, row.view])))
 
-  let created: {slug: string, view: number}[] = []
-  if (metadata.length < slugs.length) {
-    const toCreate = new Set(slugs)
-    metadata.forEach(({slug}) => toCreate.delete(slug))
-    created = await db.insert(posts).values([...toCreate].map(slug => ({slug, view: 0}))).returning({slug: posts.slug, view: posts.view})
-  }
+  const data = slugs.map(slug => ({
+    slug,
+    view: metadata.has(slug) ? metadata.get(slug) : 0
+  }))
 
-  return Response.json({data: metadata.concat(created)})
+  return Response.json({data})
 }
 
 
